@@ -1,0 +1,106 @@
+body, html {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    letter-spacing: 0.6px;
+    line-height: 1.4;
+    background: #f4c5d4;
+    color: #0d4631;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    -webkit-font-smoothing: none;
+}
+
+a  {
+    color: #0d4631;
+    font-smoothing: never;
+    letter-spacing: 1px;
+    font-size: 10px;
+    font-family: Arial, sans-serif;
+    font-weight: 400;
+    position: absolute;
+    left: 12px;
+    top: 8px;
+    z-index: 99999999999999;
+}
+
+h6 {
+    position: absolute;
+    font-weight: 400;
+} h6:before {
+    content: '';
+    position: absolute;
+    background: #0d4631;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    transform: scaleX(0);
+    transition: transform 0.3s;
+} h6:hover:before {
+    content: '';
+    position: absolute;
+    background: #0d4631;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    transform: scaleX(1);
+}
+
+#water {
+    position: absolute;
+    bottom: 112px;
+} #touch {
+    position: absolute;
+    bottom: 60px;
+    left: 28px;
+} #off {
+    position: absolute;
+    bottom: 20px;
+    left: 80px;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+#left {
+    height: 100vh;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+#right {
+    height: 100vh;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.tamagotchi {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    
+}
+
+#overlay {
+    position: relative;
+    z-index: 999999;
+} canvas {
+    transform: rotate(2deg);
+}
+
+video {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

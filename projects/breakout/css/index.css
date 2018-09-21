@@ -1,8 +1,124 @@
-/* line 1, /Users/maya/Desktop/school/MAMP/p5-test/css/index.scss */
+/* line 1, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/breakout/css/index.scss */
 body, html {
   padding: 0;
   margin: 0;
   width: 100%;
   height: 100%; }
+
+/* line 1, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/breakout/css/_pockets.scss */
+body, html {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  letter-spacing: 0.6px;
+  line-height: 1.4;
+  background: #f4c5d4;
+  color: #0d4631;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  -webkit-font-smoothing: none; }
+
+/* line 15, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/breakout/css/_pockets.scss */
+a {
+  color: #0d4631;
+  font-smoothing: never;
+  letter-spacing: 1px;
+  font-size: 10px;
+  font-family: Arial, sans-serif;
+  font-weight: 400;
+  position: absolute;
+  left: 12px;
+  top: 8px;
+  z-index: 99999999999999; }
+
+/* line 28, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/breakout/css/_pockets.scss */
+h6 {
+  position: absolute;
+  font-weight: 400; }
+
+/* line 31, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/breakout/css/_pockets.scss */
+h6:before {
+  content: '';
+  position: absolute;
+  background: #0d4631;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  transform: scaleX(0);
+  transition: transform 0.3s; }
+
+/* line 41, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/breakout/css/_pockets.scss */
+h6:hover:before {
+  content: '';
+  position: absolute;
+  background: #0d4631;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  transform: scaleX(1); }
+
+/* line 52, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/breakout/css/_pockets.scss */
+#water {
+  position: absolute;
+  bottom: 112px; }
+
+/* line 55, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/breakout/css/_pockets.scss */
+#touch {
+  position: absolute;
+  bottom: 60px;
+  left: 28px; }
+
+/* line 59, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/breakout/css/_pockets.scss */
+#off {
+  position: absolute;
+  bottom: 20px;
+  left: 80px; }
+
+/* line 65, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/breakout/css/_pockets.scss */
+.container {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0; }
+
+/* line 72, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/breakout/css/_pockets.scss */
+#left {
+  height: 100vh;
+  position: absolute;
+  left: 0;
+  top: 0; }
+
+/* line 79, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/breakout/css/_pockets.scss */
+#right {
+  height: 100vh;
+  position: absolute;
+  right: 0;
+  top: 0; }
+
+/* line 86, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/breakout/css/_pockets.scss */
+.tamagotchi {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%); }
+
+/* line 94, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/breakout/css/_pockets.scss */
+#overlay {
+  position: relative;
+  z-index: 999999; }
+
+/* line 97, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/breakout/css/_pockets.scss */
+canvas {
+  transform: rotate(2deg); }
+
+/* line 101, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/breakout/css/_pockets.scss */
+video {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%); }
 
 /*# sourceMappingURL=index.css.map */
