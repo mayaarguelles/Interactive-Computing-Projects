@@ -36,6 +36,10 @@ h1 {
 } p {
     @include body-style;
     color: $emptyoutline;
+    a, a:hover, a:visited, a:active {
+        color: black !important;
+        text-decoration: underline !important;
+    }
 }
 
 .container {
