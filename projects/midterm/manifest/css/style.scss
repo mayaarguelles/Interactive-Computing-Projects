@@ -50,7 +50,7 @@ h1 {
     justify-content: space-around;
     top: 0;
     left: 0;
-    width: 500vw;
+    width: 300vw;
     height: 100vh;
     transition: 0.8s;
     transition-timing-function: ease-in-out;
@@ -312,4 +312,107 @@ h1 {
     opacity: 0;
 } .exit #mainsub {
     opacity: 0;
+}
+
+nav.back {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    a, a:hover, a:active, a:visited {
+        background: $coolgreen;
+        color: $lightpink;
+        text-decoration: none;
+        text-transform: uppercase;
+        @include headline-style;
+        padding: 2px 8px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+}
+
+main.content-container {
+    width: calc(100% - 48px);
+    max-width: 760px;
+    margin: 48px auto;
+    padding: 12px 48px;
+    box-sizing: border-box;
+    min-height: calc(100vh - 96px);
+    border: 1px solid $coolgreen;
+    h1 {
+        cursor: pointer;
+        display: inline-flex;
+        width: auto;
+        align-items: center;
+        text-transform: uppercase;
+        padding: 12px;
+        padding-right: 48px;
+        color: $lightpink;
+        background: $coolgreen;
+        border: 0px solid transparent;
+        position: relative;
+        left: -48px;
+    } img {
+        display: block;
+        max-width: 100%;
+        max-height: 80vh;
+        margin: 0 auto;
+        margin-bottom: 36px;
+    } figure {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        box-sizing: border-box;
+        margin: 0;
+        figcaption {
+            width: 100%;
+            font-style: italic;
+            text-align: center;
+            max-width: 480px;
+            margin: 0 auto;
+        } &.alignleft {
+            float: left;
+            max-width: 240px;
+            position: relative;
+            left: -24px;
+        } &.alignright {
+            float: right;
+            max-width: 240px;
+            margin-left: 36px;
+        }
+    } p {
+        max-width: 480px;
+        margin-bottom: 24px;
+    }
+}
+
+.slidergallery {
+    position: relative;
+}
+
+button.slick-prev, button.slick-next {
+    background: $coolgreen;
+    color: $lightpink;
+    border: 0;
+    border-radius: 0;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 2px 12px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.slick-prev {
+    position: absolute;
+    left: -48px;
+    transform: translateX(-50%) translateY(-50%);
+    top: 50%;
+}
+
+.slick-next {
+    position: absolute;
+    right: -48px;
+    transform: translateX(50%) translateY(-50%);
+    top: 50%;
 }
