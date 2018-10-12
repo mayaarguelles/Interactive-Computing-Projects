@@ -8,8 +8,11 @@ var canvasWidth = 480;
 var canvasHeight = 480;
 
 /* game config */
-var globalState = 1;
+var globalState = 0;
 var cheatMode = false;
+var difficulty = 1;
+
+var score = 0;
 
 var bgMusic;
 
@@ -21,10 +24,15 @@ var tilesX = Math.ceil(canvasWidth / tileSize),
 
 var tileset = [];
 
+var tileImg;
+
+var wallChance = 1.2,
+    wallGrowth = 1.01;
+
 for ( var y = 0; y < tilesY; y++ ) {
     tileset[y] = [];
     for ( var x = 0; x < tilesX; x++ ) {
-        tileset[y][x] = new Tile(Math.floor( Math.random() * 1.2 ), x, y);
+        tileset[y][x] = new Tile(Math.floor( Math.random() * wallChance ), x, y);
     }
 }
 
@@ -34,7 +42,9 @@ console.log( tileset );
 /* theme */
 var theme = 'bw',
     darkColor = '#000000',
-    lightColor = '#ffffff';
+    lightColor = 'rgb(0,255,12)';
+
+var introImg;
 
 /* player config */
 var playerChar = new CharacterObj();
@@ -43,6 +53,18 @@ var charLeft,
     charRight,
     charDown,
     charUp;
+
+/* objective */
+var chestX = Math.floor(Math.random() * tilesX),
+    chestY = Math.floor(Math.random() * tilesY);
+
+while ( tileset[chestY][chestX].id == 1 ) {
+    chestX = Math.floor(Math.random() * tilesX);
+    chestY = Math.floor(Math.random() * tilesY);
+}
+
+var chestObjective = new Chest(chestX, chestY);
+console.log(chestObjective);
 
 
 /* cheat panel */
@@ -58,6 +80,12 @@ function preload() {
     charDown = loadImage("img/down.gif");
     charUp = loadImage("img/up.gif");
     
+    introImg = loadImage("img/intro.gif");
+    
+    tileImg = loadImage("img/bg.gif");
+    
+    objImg = loadImage("img/chest.gif");
+    
     bgMusic = loadSound("audio/music.mp3");
 }
 
@@ -68,7 +96,7 @@ function setup() {
     background( darkColor );
     fill( lightColor );
     stroke( lightColor );
-    bgMusic.play();
+    bgMusic.loop();
 }
 
 function draw() {
@@ -113,10 +141,25 @@ function sceneHandler( globalState ) {
 
 function scene_titleScreen() {
     background( darkColor );
-    fill( lightColor );
+    fill( 'rgba(0,0,0,0)' );
     stroke( lightColor );
-    textA
-    text('Alone',40,40);
+    image( introImg, 0, 0 );
+    rect(170 + ( difficulty * 58 - 58 ), 400, 24, 24);
+    
+    if ( keyIsPressed ) {
+        if ( key == '1' ) {
+            difficulty = 1;
+            wallGrowth = 1.01;
+        } else if ( key == '2' ) {
+            difficulty = 2;
+            wallGrowth = 1.02;
+        } else if ( key == '3' ) {
+            difficulty = 3;
+            wallGrowth = 1.03;
+        } else {
+            globalState = 1;
+        }
+    }
 }
 
 function scene_game() {
@@ -133,9 +176,13 @@ function scene_game() {
         }
     }
     
+    chestObjective.draw();
+    chestObjective.testCollision();
     
     playerChar.draw();
     playerChar.updatePos();
+    
+    text( 'score: ' + score, 12, 16 );
 }
 
 function scene_gameOver() {
@@ -146,10 +193,6 @@ function scene_error() {
     background('#000000');
     fill('#ffffff');
     stroke('#ffffff');
-}
-
-function applyTheme() {
-    
 }
 
 
@@ -163,29 +206,45 @@ function CharacterObj() {
     this.speed = 4;
     this.width = 17;
     this.height = 33;
-    this.sprite = charDown;
+    this.lastDirection = 's';
     
     this.draw = function() {        
         //console.log( 'X: ' + this.posX + ' Y:' + this.posY);
         
         //rect(this.posX, this.posY, this.width, this.height);
-        image( charDown, this.posX, this.posY );
+        switch ( this.lastDirection ) {
+            case 'w':
+                image(charUp, this.posX, this.posY);
+                break;
+            case 'a':
+                image(charLeft, this.posX, this.posY);
+                break;
+            case 's':
+                image(charDown, this.posX, this.posY);
+                break;
+            case 'd':
+                image(charRight, this.posX, this.posY);
+                break;
+            default:
+                break;
+        }
+        
     }
     
     this.updatePos = function() {
         if ( keyIsPressed ) {
-            if ( curKeys.includes('w') ) {
-                this.posY = constrain(this.posY - this.speed, 0, canvasHeight - this.height);
-                this.sprite = charUp;
-            } if ( curKeys.includes('s') ) {
-                this.posY = constrain(this.posY + this.speed, 0, canvasHeight - this.height);
-                this.sprite = charDown;
-            } if ( curKeys.includes('a') ) {
+            if ( curKeys.includes('a') ) {
                 this.posX = constrain(this.posX - this.speed, 0, canvasWidth - this.width);
-                this.sprite = charLeft;
+                this.lastDirection = 'a';
             } if ( curKeys.includes('d') ) {
                 this.posX = constrain(this.posX + this.speed, 0, canvasWidth - this.width);
-                this.sprite = charRight;
+                this.lastDirection = 'd';
+            } if ( curKeys.includes('w') ) {
+                this.posY = constrain(this.posY - this.speed, 0, canvasHeight - this.height);
+                this.lastDirection = 'w';
+            } if ( curKeys.includes('s') ) {
+                this.posY = constrain(this.posY + this.speed, 0, canvasHeight - this.height);
+                this.lastDirection = 's';
             }
         }
     }
@@ -205,8 +264,10 @@ function Tile( id, xInd, yInd ) {
     this.draw = function() {
         switch ( this.id ) {
             case 0:
+                image( tileImg, this.posX, this.posY );
                 break;
             case 1:
+                image( tileImg, this.posX, this.posY );
                 if ( cheatMode ) {
                     rect(this.posX, this.posY, tileSize, tileSize);
                 }
@@ -255,6 +316,66 @@ function posterize( test, min, max ) {
         return min;
     }
     return max;
+}
+
+function randomizeTileset() {
+    for ( var y = 0; y < tilesY; y++ ) {
+        for ( var x = 0; x < tilesX; x++ ) {
+            tileset[y][x].id = Math.floor( Math.random() * wallChance );
+        }
+    }
+}
+
+/*--------------------------------*\
+	 CHEST
+\*--------------------------------*/
+
+function Chest(tileX, tileY) {
+    this.width = 20;
+    this.height = 20;
+    this.posX = tileX * tileSize + (( tileSize - this.width ) / 2 );
+    this.posY = tileY * tileSize + (( tileSize - this.height ) / 2 );
+    
+    this.draw = function() {
+        image( objImg, this.posX, this.posY );
+    }
+    
+    this.testCollision = function() {
+        if ( playerChar.posX + playerChar.width >= this.posX && playerChar.posX <= this.posX + this.width && playerChar.posY + playerChar.height >= this.posY && playerChar.posY <= this.posY + this.height ) {
+            advLevel();
+        }
+    }
+    
+    this.updatePos = function(tileX, tileY) {
+        this.posX = tileX * tileSize + (( tileSize - this.width ) / 2 );
+        this.posY = tileY * tileSize + (( tileSize - this.height ) / 2 );
+    }
+}
+
+/*--------------------------------*\
+	 LEVELING
+\*--------------------------------*/
+
+function advLevel() {
+    console.log("NEXT LEVEL!");
+    
+    wallChance *= wallGrowth;
+    console.log(wallChance);
+    
+    randomizeTileset();
+    
+    chestX = Math.floor(Math.random() * tilesX),
+    chestY = Math.floor(Math.random() * tilesY);
+
+    while ( tileset[chestY][chestX].id == 1 ) {
+        chestX = Math.floor(Math.random() * tilesX);
+        chestY = Math.floor(Math.random() * tilesY);
+    }
+    
+    chestObjective.updatePos(chestX, chestY);
+    
+    score++;
+    console.log(score);
 }
 
 /*--------------------------------*\
