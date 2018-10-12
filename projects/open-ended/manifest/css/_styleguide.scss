@@ -1,0 +1,29 @@
+//
+//          COLOR PALETTE
+//
+
+$emptyfill : rgb(255,255,255);
+$emptyoutline : rgb(0,0,0);
+$emptyaccent : rgb(7, 36, 255);
+
+// PROJECT ONE - HTML & CSS
+$lightpink : white;
+$coolgreen : black;
+
+
+
+//
+//          FONT STYLES
+//
+
+@mixin headline-style {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.1;
+}
+
+@mixin body-style {
+    font-family: 'Arial', sans-serif;
+    font-weight: 400;
+    letter-spacing: 1px;
+    line-height: 1.5;
+}
