@@ -9,6 +9,9 @@ var canvasHeight = 480;
 
 /* game config */
 var globalState = 1;
+var cheatMode = false;
+
+var bgMusic;
 
 /* tileset */
 var tileSize = 24;
@@ -35,7 +38,11 @@ var theme = 'bw',
 
 /* player config */
 var playerChar = new CharacterObj();
-console.log( playerChar );
+
+var charLeft,
+    charRight,
+    charDown,
+    charUp;
 
 
 /* cheat panel */
@@ -46,7 +53,12 @@ var domButtons = document.querySelectorAll('.cheat-panel button');
 	 PROCESSING
 \*--------------------------------*/
 function preload() {
+    charLeft = loadImage("img/left.gif");
+    charRight = loadImage("img/right.gif");
+    charDown = loadImage("img/down.gif");
+    charUp = loadImage("img/up.gif");
     
+    bgMusic = loadSound("audio/music.mp3");
 }
 
 function setup() {
@@ -56,6 +68,7 @@ function setup() {
     background( darkColor );
     fill( lightColor );
     stroke( lightColor );
+    bgMusic.play();
 }
 
 function draw() {
@@ -102,7 +115,8 @@ function scene_titleScreen() {
     background( darkColor );
     fill( lightColor );
     stroke( lightColor );
-    text('title',40,40);
+    textA
+    text('Alone',40,40);
 }
 
 function scene_game() {
@@ -110,7 +124,7 @@ function scene_game() {
     fill( lightColor );
     stroke( lightColor );
     
-    text('game', 40, 40);
+    // text('game', 40, 40);
     
     for ( var y = 0; y < tilesY; y++ ) {
         for ( var x = 0; x < tilesX; x++ ) {
@@ -146,26 +160,32 @@ function applyTheme() {
 function CharacterObj() {
     this.posX = canvasWidth / 2;
     this.posY = canvasHeight / 2;
-    this.speed = 5;
-    this.width = 12;
-    this.height = 12;
+    this.speed = 4;
+    this.width = 17;
+    this.height = 33;
+    this.sprite = charDown;
     
     this.draw = function() {        
         //console.log( 'X: ' + this.posX + ' Y:' + this.posY);
         
-        rect(this.posX, this.posY, this.width, this.height);
+        //rect(this.posX, this.posY, this.width, this.height);
+        image( charDown, this.posX, this.posY );
     }
     
     this.updatePos = function() {
         if ( keyIsPressed ) {
             if ( curKeys.includes('w') ) {
                 this.posY = constrain(this.posY - this.speed, 0, canvasHeight - this.height);
+                this.sprite = charUp;
             } if ( curKeys.includes('s') ) {
                 this.posY = constrain(this.posY + this.speed, 0, canvasHeight - this.height);
+                this.sprite = charDown;
             } if ( curKeys.includes('a') ) {
                 this.posX = constrain(this.posX - this.speed, 0, canvasWidth - this.width);
+                this.sprite = charLeft;
             } if ( curKeys.includes('d') ) {
                 this.posX = constrain(this.posX + this.speed, 0, canvasWidth - this.width);
+                this.sprite = charRight;
             }
         }
     }
@@ -187,7 +207,9 @@ function Tile( id, xInd, yInd ) {
             case 0:
                 break;
             case 1:
-                rect(this.posX, this.posY, tileSize, tileSize);
+                if ( cheatMode ) {
+                    rect(this.posX, this.posY, tileSize, tileSize);
+                }
                 break;
             default:
                 break;
@@ -352,6 +374,7 @@ function buttonHandler() {
     let id = this.getAttribute('id');
     switch ( id ) {
         case 'action':
+            cheatMode = true;
             break;
         default:
             break;
