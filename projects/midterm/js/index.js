@@ -13,13 +13,11 @@ var thePlayer;
 // create an object to hold our "world parameters" - we will send this object into our 
 // OverheadWorld to tell it how our world is organized
 var worldParameters = {
-    tileSize: 50,
-    tileFolder: 'tiles',
-    numTiles: 49,
+    tileSize: 32,
+    tileFolder: 'assets/tiles',
+    numTiles: 2,
     solidTiles: {
-        0: true,
-        18: true,
-        6: true
+        1: true,
     }
 };
 
