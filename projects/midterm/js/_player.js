@@ -13,12 +13,16 @@ function Player(x, y, world) {
     // dimensions
     this.width = 20;
     this.height = 20;
+    
+    this.held = 'wateringcan';
 
     // display our player
     this.display = function() {
         imageMode(CORNER);
+        this.displayTarget();
         //image(this.currentImage, this.x, this.y);
         rect(this.x, this.y, this.width, this.height);
+        
     }
 
     // display "sensor" positions
@@ -43,6 +47,16 @@ function Player(x, y, world) {
         this.top = [this.x + this.width / 2, this.y];
         this.bottom = [this.x + this.width / 2, this.y + this.height ];
     }
+    
+    this.target = this.world.getTile(this.x, this.y, true);
+    
+    this.displayTarget = function() {
+        rect(this.target.x * this.world.tileSize, this.target.y * this.world.tileSize, this.world.tileSize, this.world.tileSize);
+    }
+    
+    this.updateTarget = function(x,y) {
+        this.target = this.world.getTile(x, y, true);
+    }
 
     // move our character
     this.move = function() {
@@ -58,6 +72,7 @@ function Player(x, y, world) {
 
             // see which tile is to our left
             var tile = world.getTile(this.left[0], this.left[1]);
+            this.updateTarget( this.left[0] - this.world.tileSize, this.left[1] );
 
             // would moving in this direction require a room change?
             if (tile == "roomChange") {
@@ -75,6 +90,7 @@ function Player(x, y, world) {
                 if (!world.isTileSolid(tile)) {
                     // move
                     this.x -= this.speed;
+                    world.moveLeft();
                 }
             }
 
@@ -86,6 +102,7 @@ function Player(x, y, world) {
         if (keyIsDown(RIGHT_ARROW) || keyIsDown(100) || keyIsDown(68)) {
             // see which tile is to our right
             var tile = world.getTile(this.right[0], this.right[1]);
+            this.updateTarget( this.right[0] + this.world.tileSize, this.right[1] );
 
             // would moving in this direction require a room change?
             if (tile == "roomChange") {
@@ -103,6 +120,7 @@ function Player(x, y, world) {
                 if (!world.isTileSolid(tile)) {
                     // move
                     this.x += this.speed;
+                    world.moveRight();
                 }
             }
 
@@ -114,6 +132,7 @@ function Player(x, y, world) {
         if (keyIsDown(DOWN_ARROW) || keyIsDown(115) || keyIsDown(83)) {
             // see which tile is below us
             var tile = world.getTile(this.bottom[0], this.bottom[1]);
+            this.updateTarget( this.bottom[0], this.bottom[1] + this.world.tileSize );
 
             // would moving in this direction require a room change?
             if (tile == "roomChange") {
@@ -131,6 +150,7 @@ function Player(x, y, world) {
                 if (!world.isTileSolid(tile)) {
                     // move
                     this.y += this.speed;
+                    world.moveDown();
                 }
             }
 
@@ -142,6 +162,7 @@ function Player(x, y, world) {
         if (keyIsDown(UP_ARROW) || keyIsDown(119) || keyIsDown(87)) {
             // see which tile is below us
             var tile = world.getTile(this.top[0], this.top[1]);
+            this.updateTarget( this.top[0], this.top[1] - this.world.tileSize );
 
             // would moving in this direction require a room change?
             if (tile == "roomChange") {
@@ -157,7 +178,8 @@ function Player(x, y, world) {
                 // is this tile solid?
                 if (!world.isTileSolid(tile)) {
                 // move
-                this.y -= this.speed;
+                    this.y -= this.speed;
+                    world.moveUp();
             }
         }
 
