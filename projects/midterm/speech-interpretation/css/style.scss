@@ -1,0 +1,418 @@
+@import 'styleguide';
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+
+body,html {
+    -webkit-font-smoothing: antialiased;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0;
+    padding: 0;
+    color: $coolgreen;
+    @include body-style;
+    background: white;
+} .js body {
+    overflow: hidden;
+}
+
+h1 {
+    @include headline-style;
+} h2 {
+    @include headline-style;
+    font-size: 48px;
+    background: $emptyfill;
+    color: $emptyoutline;
+    border: 1px solid $emptyoutline;
+    border-left: 0px solid transparent;
+} h3 {
+    @include headline-style;
+    font-size: 24px;
+    background: $emptyfill;
+    color: $emptyoutline;
+    border: 1px solid $emptyoutline;
+    border-left: 0px solid transparent;
+} h4 {
+    @include headline-style;
+} p {
+    @include body-style;
+    color: $emptyoutline;
+    a, a:hover, a:visited, a:active {
+        color: black !important;
+        text-decoration: underline !important;
+    }
+}
+
+.container {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    top: 0;
+    left: 0;
+    width: 300vw;
+    height: 100vh;
+    transition: 0.8s;
+    transition-timing-function: ease-in-out;
+    transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+    background: $lightpink;
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+} .exit .project {
+    transition: 0.8s;
+    transform: scale(1.13);
+}
+
+.project {
+    position: relative;
+    display: inline-block;
+    width: 94vw;
+    height: 90vh;
+    //margin: 5vh 2.5vw;
+    padding: 0;
+    border: 1px solid $coolgreen;
+    background: rgba(255,255,255,.4);
+} .project {
+    h2 {
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        text-transform: uppercase;
+        padding: 12px;
+        padding-right: 48px;
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        transition: 0.8s;
+        transition-timing-function: ease-in-out;
+        transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+        margin-bottom: 0;
+        color: $lightpink;
+        background: $coolgreen;
+        border: 0px solid transparent;
+    } h2:after {
+        content: '';
+        height: 36px;
+        width: 12px;
+        background: url('../img/chevron.png');
+        background-size: contain;
+        display: block;
+        position: relative;
+        right: -24px;
+        top: 0;
+        transition: transform 0.3s;
+    } h2:hover:after {
+        transform: translateX(8px);
+    } h3 {
+        display: inline-flex;
+        align-items: center;
+        height: 36px;
+        padding: 6px;
+        padding-left: 12px;
+        padding-right: 24px;
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        transition: 0.8s;
+        transition-delay: 0.2s;
+        transition-timing-function: ease-in-out;
+        transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+        color: $lightpink;
+        background: $coolgreen;
+        border: 0px solid transparent;
+    } p {
+        border: 1px solid $coolgreen;
+        color: $coolgreen;
+        background: $lightpink;
+        width: 80%;
+        max-width: 320px;
+        min-width: 240px;
+        margin-left: 48px;
+        padding: 18px 24px;
+        max-height: 40%;
+        overflow-y: scroll;
+        transition: opacity 0.8s, margin 0.8s;
+        transition-delay: 0.6s;
+    } a, a:hover, a:active, a:visited {
+        color: $lightpink;
+        text-decoration: none;
+    } iframe {
+        z-index: -10;
+        border: 0px solid transparent;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+    }
+} .project.inactive {
+    h2 {
+        -webkit-clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+        clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+    } h3 {
+        -webkit-clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+        clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+    } p {
+        margin-left: 24px;
+        opacity: 0;
+    }
+} .project.locked {
+    /* LOCK ICON BY Dima Lagunov FROM THE NOUN PROJECT */
+    background: url('../img/lock.png');
+    background-size: 48px auto;
+    background-repeat: no-repeat;
+    background-position: center center;
+} .project.locked {
+    h2 {
+        cursor: auto;
+    }
+}
+
+.prev {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 3vw;
+    height: 100vh;
+    cursor: url('../img/navleft.png'), pointer;
+} .next {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 3vw;
+    height: 100vh;
+    cursor: url('../img/navright.png'), pointer;
+}
+
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 24px;
+    right: 56px;
+    height: 64px;
+    width: 64px;
+    background: $coolgreen;
+    cursor: pointer;
+    transition: opacity 0.3s;
+} .hamburger div {
+    display: block;
+    border-radius: 2px;
+    height: 3px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    width: 48px;
+    background: $lightpink;
+    transition: 0.6s;
+} .hamburger.open div:nth-child(1) {
+    transform: rotate(45deg) translateX(10px) translateY(10px);
+    transform-origin: 50% 50%;
+} .hamburger.open div:nth-child(2) {
+    opacity: 0;
+} .hamburger.open div:nth-child(3) {
+    transform: rotate(-45deg) translateX(10px) translateY(-10px);
+    transform-origin: 50% 50%;
+}
+
+.exit .hamburger {
+    opacity: 0;
+}
+
+.nav {
+    position: absolute;
+    right: 56px;
+    bottom: 88px;
+    transition: transform 0.9s;
+    transform: translateY(100%);
+} .nav ul {
+    text-align: right;
+    list-style: none;
+} .nav ul li {
+    display: block;
+    @include headline-style;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0;
+    transition: 0.3s;
+    transition-delay: 0s;
+    float: right;
+    clear: both;
+} .nav.open {
+    transform: translateY(0);
+} .nav.open ul li {
+    opacity: 1;
+    cursor: pointer;
+} .nav.open ul li:nth-child(1) {
+    transition-delay: 0.1s;
+} .nav.open ul li:nth-child(2) {
+    transition-delay: 0.2s;
+} .nav.open ul li:nth-child(3) {
+    transition-delay: 0.3s;
+} .nav.open ul li:nth-child(4) {
+    transition-delay: 0.4s;
+} .nav.open ul li:nth-child(5) {
+    transition-delay: 0.5s;
+} .nav.open ul li:nth-child(6) {
+    transition-delay: 0.6s;
+} .nav.open ul li:nth-child(7) {
+    transition-delay: 0.7s;
+} .nav.open ul li:nth-child(8) {
+    transition-delay: 0.8s;
+} .nav ul li:before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: $coolgreen;
+    position: relative;
+    top: 24px;
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition: 0.6s;
+} .nav ul li:hover:before {
+    transform: scaleX(1);
+    transform-origin: right center;
+}
+
+#maintitle {
+    position: fixed;
+    right: 132px;
+    bottom: 48px;
+    text-transform: uppercase;
+    font-size: 24px;
+    padding: 6px 12px;
+    margin: 0;
+    text-align: right;
+    background: $lightpink;
+    color: $coolgreen;
+    border: 1px solid $coolgreen;
+    transition: opacity 0.3s;
+} #mainsub {
+    position: fixed;
+    bottom: 24px;
+    right: 132px;
+    text-transform: uppercase;
+    font-size: 14px;
+    padding: 2px 6px;
+    margin: 0;
+    text-align: right;
+    background: $lightpink;
+    color: $coolgreen;
+    border: 1px solid $coolgreen;
+    transition: opacity 0.3s;
+} .exit #maintitle {
+    opacity: 0;
+} .exit #mainsub {
+    opacity: 0;
+}
+
+nav.back {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    a, a:hover, a:active, a:visited {
+        background: $coolgreen;
+        color: $lightpink;
+        text-decoration: none;
+        text-transform: uppercase;
+        @include headline-style;
+        padding: 2px 8px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+}
+
+main.content-container {
+    width: calc(100% - 48px);
+    max-width: 760px;
+    margin: 48px auto;
+    padding: 12px 48px;
+    box-sizing: border-box;
+    min-height: calc(100vh - 96px);
+    border: 1px solid $coolgreen;
+    h1 {
+        cursor: pointer;
+        display: inline-flex;
+        width: auto;
+        align-items: center;
+        text-transform: uppercase;
+        padding: 12px;
+        padding-right: 48px;
+        color: $lightpink;
+        background: $coolgreen;
+        border: 0px solid transparent;
+        position: relative;
+        left: -48px;
+    } img {
+        display: block;
+        max-width: 100%;
+        max-height: 80vh;
+        margin: 0 auto;
+        margin-bottom: 36px;
+    } figure {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        box-sizing: border-box;
+        margin: 0;
+        figcaption {
+            width: 100%;
+            font-style: italic;
+            text-align: center;
+            max-width: 480px;
+            margin: 0 auto;
+        } &.alignleft {
+            float: left;
+            max-width: 240px;
+            position: relative;
+            left: -24px;
+        } &.alignright {
+            float: right;
+            max-width: 240px;
+            margin-left: 36px;
+        }
+    } p {
+        max-width: 480px;
+        margin-bottom: 24px;
+    }
+}
+
+.slidergallery {
+    position: relative;
+}
+
+button.slick-prev, button.slick-next {
+    background: $coolgreen;
+    color: $lightpink;
+    border: 0;
+    border-radius: 0;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 2px 12px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.slick-prev {
+    position: absolute;
+    left: -48px;
+    transform: translateX(-50%) translateY(-50%);
+    top: 50%;
+}
+
+.slick-next {
+    position: absolute;
+    right: -48px;
+    transform: translateX(50%) translateY(-50%);
+    top: 50%;
+}
