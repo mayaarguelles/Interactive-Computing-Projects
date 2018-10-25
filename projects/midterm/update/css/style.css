@@ -1,0 +1,507 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+/* line 5, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+body, html {
+  -webkit-font-smoothing: antialiased;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0;
+  padding: 0;
+  color: black;
+  font-family: 'Arial', sans-serif;
+  font-weight: 400;
+  letter-spacing: 1px;
+  line-height: 1.5;
+  background: white; }
+
+/* line 14, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.js body {
+  overflow: hidden; }
+
+/* line 18, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+h1 {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.1; }
+
+/* line 20, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+h2 {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.1;
+  font-size: 48px;
+  background: white;
+  color: black;
+  border: 1px solid black;
+  border-left: 0px solid transparent; }
+
+/* line 27, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+h3 {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.1;
+  font-size: 24px;
+  background: white;
+  color: black;
+  border: 1px solid black;
+  border-left: 0px solid transparent; }
+
+/* line 34, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+h4 {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.1; }
+
+/* line 36, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+p {
+  font-family: 'Arial', sans-serif;
+  font-weight: 400;
+  letter-spacing: 1px;
+  line-height: 1.5;
+  color: black; }
+  /* line 39, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+  p a, p a:hover, p a:visited, p a:active {
+    color: black !important;
+    text-decoration: underline !important; }
+
+/* line 45, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.container {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  top: 0;
+  left: 0;
+  width: 300vw;
+  height: 100vh;
+  transition: 0.8s;
+  transition-timing-function: ease-in-out;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+
+/* line 61, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.exit .project {
+  transition: 0.8s;
+  transform: scale(1.13); }
+
+/* line 66, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.project {
+  position: relative;
+  display: inline-block;
+  width: 94vw;
+  height: 90vh;
+  padding: 0;
+  border: 1px solid black;
+  background: rgba(255, 255, 255, 0.4); }
+
+/* line 76, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.project h2 {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  text-transform: uppercase;
+  padding: 12px;
+  padding-right: 48px;
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  transition: 0.8s;
+  transition-timing-function: ease-in-out;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 0;
+  color: white;
+  background: black;
+  border: 0px solid transparent; }
+
+/* line 92, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.project h2:after {
+  content: '';
+  height: 36px;
+  width: 12px;
+  background: url("../img/chevron.png");
+  background-size: contain;
+  display: block;
+  position: relative;
+  right: -24px;
+  top: 0;
+  transition: transform 0.3s; }
+
+/* line 103, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.project h2:hover:after {
+  transform: translateX(8px); }
+
+/* line 105, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.project h3 {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 6px;
+  padding-left: 12px;
+  padding-right: 24px;
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  transition: 0.8s;
+  transition-delay: 0.2s;
+  transition-timing-function: ease-in-out;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  color: white;
+  background: black;
+  border: 0px solid transparent; }
+
+/* line 121, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.project p {
+  border: 1px solid black;
+  color: black;
+  background: white;
+  width: 80%;
+  max-width: 320px;
+  min-width: 240px;
+  margin-left: 48px;
+  padding: 18px 24px;
+  max-height: 40%;
+  overflow-y: scroll;
+  transition: opacity 0.8s, margin 0.8s;
+  transition-delay: 0.6s; }
+
+/* line 134, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.project a, .project a:hover, .project a:active, .project a:visited {
+  color: white;
+  text-decoration: none; }
+
+/* line 137, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.project iframe {
+  z-index: -10;
+  border: 0px solid transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; }
+
+/* line 148, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.project.inactive h2 {
+  -webkit-clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); }
+
+/* line 151, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.project.inactive h3 {
+  -webkit-clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); }
+
+/* line 154, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.project.inactive p {
+  margin-left: 24px;
+  opacity: 0; }
+
+/* line 158, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.project.locked {
+  /* LOCK ICON BY Dima Lagunov FROM THE NOUN PROJECT */
+  background: url("../img/lock.png");
+  background-size: 48px auto;
+  background-repeat: no-repeat;
+  background-position: center center; }
+
+/* line 165, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.project.locked h2 {
+  cursor: auto; }
+
+/* line 170, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.prev {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 3vw;
+  height: 100vh;
+  cursor: url("../img/navleft.png"), pointer; }
+
+/* line 181, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.next {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 3vw;
+  height: 100vh;
+  cursor: url("../img/navright.png"), pointer; }
+
+/* line 193, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 24px;
+  right: 56px;
+  height: 64px;
+  width: 64px;
+  background: black;
+  cursor: pointer;
+  transition: opacity 0.3s; }
+
+/* line 206, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.hamburger div {
+  display: block;
+  border-radius: 2px;
+  height: 3px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  width: 48px;
+  background: white;
+  transition: 0.6s; }
+
+/* line 215, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.hamburger.open div:nth-child(1) {
+  transform: rotate(45deg) translateX(10px) translateY(10px);
+  transform-origin: 50% 50%; }
+
+/* line 218, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.hamburger.open div:nth-child(2) {
+  opacity: 0; }
+
+/* line 220, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.hamburger.open div:nth-child(3) {
+  transform: rotate(-45deg) translateX(10px) translateY(-10px);
+  transform-origin: 50% 50%; }
+
+/* line 225, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.exit .hamburger {
+  opacity: 0; }
+
+/* line 229, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.nav {
+  position: absolute;
+  right: 56px;
+  bottom: 88px;
+  transition: transform 0.9s;
+  transform: translateY(100%); }
+
+/* line 235, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.nav ul {
+  text-align: right;
+  list-style: none; }
+
+/* line 238, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.nav ul li {
+  display: block;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.1;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  opacity: 0;
+  transition: 0.3s;
+  transition-delay: 0s;
+  float: right;
+  clear: both; }
+
+/* line 248, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.nav.open {
+  transform: translateY(0); }
+
+/* line 250, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.nav.open ul li {
+  opacity: 1;
+  cursor: pointer; }
+
+/* line 253, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.nav.open ul li:nth-child(1) {
+  transition-delay: 0.1s; }
+
+/* line 255, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.nav.open ul li:nth-child(2) {
+  transition-delay: 0.2s; }
+
+/* line 257, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.nav.open ul li:nth-child(3) {
+  transition-delay: 0.3s; }
+
+/* line 259, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.nav.open ul li:nth-child(4) {
+  transition-delay: 0.4s; }
+
+/* line 261, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.nav.open ul li:nth-child(5) {
+  transition-delay: 0.5s; }
+
+/* line 263, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.nav.open ul li:nth-child(6) {
+  transition-delay: 0.6s; }
+
+/* line 265, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.nav.open ul li:nth-child(7) {
+  transition-delay: 0.7s; }
+
+/* line 267, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.nav.open ul li:nth-child(8) {
+  transition-delay: 0.8s; }
+
+/* line 269, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.nav ul li:before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: black;
+  position: relative;
+  top: 24px;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: 0.6s; }
+
+/* line 280, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.nav ul li:hover:before {
+  transform: scaleX(1);
+  transform-origin: right center; }
+
+/* line 285, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+#maintitle {
+  position: fixed;
+  right: 132px;
+  bottom: 48px;
+  text-transform: uppercase;
+  font-size: 24px;
+  padding: 6px 12px;
+  margin: 0;
+  text-align: right;
+  background: white;
+  color: black;
+  border: 1px solid black;
+  transition: opacity 0.3s; }
+
+/* line 298, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+#mainsub {
+  position: fixed;
+  bottom: 24px;
+  right: 132px;
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 2px 6px;
+  margin: 0;
+  text-align: right;
+  background: white;
+  color: black;
+  border: 1px solid black;
+  transition: opacity 0.3s; }
+
+/* line 311, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.exit #maintitle {
+  opacity: 0; }
+
+/* line 313, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.exit #mainsub {
+  opacity: 0; }
+
+/* line 317, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+nav.back {
+  position: fixed;
+  top: 12px;
+  left: 12px; }
+  /* line 321, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+  nav.back a, nav.back a:hover, nav.back a:active, nav.back a:visited {
+    background: black;
+    color: white;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.1;
+    padding: 2px 8px;
+    font-weight: bold;
+    cursor: pointer; }
+
+/* line 333, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+main.content-container {
+  width: calc(100% - 48px);
+  max-width: 760px;
+  margin: 48px auto;
+  padding: 12px 48px;
+  box-sizing: border-box;
+  min-height: calc(100vh - 96px);
+  border: 1px solid black; }
+  /* line 341, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+  main.content-container h1 {
+    cursor: pointer;
+    display: inline-flex;
+    width: auto;
+    align-items: center;
+    text-transform: uppercase;
+    padding: 12px;
+    padding-right: 48px;
+    color: white;
+    background: black;
+    border: 0px solid transparent;
+    position: relative;
+    left: -48px; }
+  /* line 354, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+  main.content-container img {
+    display: block;
+    max-width: 100%;
+    max-height: 80vh;
+    margin: 0 auto;
+    margin-bottom: 36px; }
+  /* line 360, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+  main.content-container figure {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    margin: 0; }
+    /* line 368, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+    main.content-container figure figcaption {
+      width: 100%;
+      font-style: italic;
+      text-align: center;
+      max-width: 480px;
+      margin: 0 auto; }
+    /* line 374, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+    main.content-container figure.alignleft {
+      float: left;
+      max-width: 240px;
+      position: relative;
+      left: -24px; }
+    /* line 379, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+    main.content-container figure.alignright {
+      float: right;
+      max-width: 240px;
+      margin-left: 36px; }
+  /* line 384, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+  main.content-container p {
+    max-width: 480px;
+    margin-bottom: 24px; }
+
+/* line 390, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.slidergallery {
+  position: relative; }
+
+/* line 394, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+button.slick-prev, button.slick-next {
+  background: black;
+  color: white;
+  border: 0;
+  border-radius: 0;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 2px 12px;
+  display: inline-block;
+  cursor: pointer; }
+
+/* line 406, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.slick-prev {
+  position: absolute;
+  left: -48px;
+  transform: translateX(-50%) translateY(-50%);
+  top: 50%; }
+
+/* line 413, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/update/css/style.scss */
+.slick-next {
+  position: absolute;
+  right: -48px;
+  transform: translateX(50%) translateY(-50%);
+  top: 50%; }
+
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Interactive Computing - Midterm Update</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" type="text/css" rel="stylesheet">
+        <link href="css/style.css" type="text/css" rel="stylesheet">
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <nav class="back">
+            <a href="../../../">&larr; back</a>
+        </nav>
+        <main class="content-container">
+            <h1>
+                Midterm Update
+            </h1>
+            <p>
+                So far I've gotten the main logic of the game up and running -- all that seems left to do is to skin the tileset, add a little more variation to the structure I've outlined (crop species, varying lengths of growth...) and actually create the maps!
+            </p>
+            <figure>
+                <img src="img/screen.png" alt="In game screenshot">
+                <figcaption>
+                    A wonderfully vivid and visually stimulating look at the game.
+                </figcaption>
+            </figure>
+            <p>
+                Essentially what is represented above are some arbitrary decorative tiles -- each tile here appears just as its ID, and some crops! Tiles 10-19 are crops, where 10-14 represent different stages of unwatered crops, and 15-19 represent those same stages, but the watered states. Every day change, the crops are checked to see if they are watered, and if they are their growth counter is incremented / maybe they reach the next stage of growth. If they are unwatered, there is a chance they die overnight.
+            </p>
+            <p>
+                I still need to add the inventory functionality / functionality to handle what happens <i>after</i> you grow something -- selling, buying seeds, etc. Also, hopefully I can get the crop interaction where you can use the p5 speech to text feature to speak to your plants up and running. I have a skeleton of the interaction set out, and have created a <a href="../speech-interpretation/">test run</a> for querying an API that determines if a string is positive, negative, or neutral.
+            </p>
+            <p>
+                If you'd like to see what else is going on under the hood, the project is <a href="https://github.com/mayaarguelles/Interactive-Computing-Projects">also up on GitHub</a> under the midterm branch.
+            </p>
+        </main>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+        <script src="js/index.js">
+        </script>
+    </body>
+</html>
