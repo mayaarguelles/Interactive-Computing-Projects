@@ -12,6 +12,10 @@ function OverheadWorld(params) {
     this.solidTiles = params.solidTiles;
     
     this.cropTiles = params.cropTiles;
+    
+    this.cultivatableTiles = params.cultivatable;
+    
+    this.wetTiles = params.wetTiles;
 
     // an array to hold all tile graphics
     this.tileLibrary = [];
@@ -126,6 +130,22 @@ function OverheadWorld(params) {
         
         //console.log(baseCropID);
         if ( baseCropID in this.cropTiles ) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    this.isCultivatable = function(id) {
+        if ( id in this.cultivatableTiles ) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    this.isWet = function(id) {
+        if ( id in this.wetTiles ) {
             return true;
         }
         

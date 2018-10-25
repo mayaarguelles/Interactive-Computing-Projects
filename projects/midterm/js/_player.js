@@ -14,12 +14,15 @@ function Player(x, y, world) {
     this.width = 20;
     this.height = 20;
     
-    this.held = 'wateringcan';
+    this.held = -1;
 
     // display our player
     this.display = function() {
         imageMode(CORNER);
         this.displayTarget();
+        fill('black');
+        this.displayHeld();
+        fill('white');
         //image(this.currentImage, this.x, this.y);
         rect(this.x, this.y, this.width, this.height);
         
@@ -52,6 +55,10 @@ function Player(x, y, world) {
     
     this.displayTarget = function() {
         rect(this.target.x * this.world.tileSize, this.target.y * this.world.tileSize, this.world.tileSize, this.world.tileSize);
+    }
+    
+    this.displayHeld = function() {
+        text( this.held, this.x, this.y );
     }
     
     this.updateTarget = function(x,y) {

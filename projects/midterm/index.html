@@ -3,32 +3,37 @@
     <head>
         <title>Midterm</title>
         <meta charset="UTF-8">
+        <link href="css/style.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <div class="container">
             <div id="gamepane">
                 
             </div>
-            <div id="debugpane">
-                <label>player holding: </label><br>
-                <input type="text" id="playerheld"><br>
-                <label>time:</label><br>
-                <label>hours:</label>
-                <input type="number" min="0" max="23" id="gametimehour">
-                <label>minutes:</label>
-                <input type="number" min="0" max="59" id="gametimeminute">
-            </div>
-            <div id="inventorypane">
-                <h2>inventory</h2>
-                <ul>
-                    <li>your inventory is empty</li>
-                </ul>
-            </div>
-            <div id="pausepane">
-                <h2>paused</h2>
+            <div id="otherpanes">
+                <div id="debugpane">
+                    <h4>player holding:</h4>
+                    <input type="text" id="playerheld"><br>
+                    <button id="updateheld">update</button>
+                    <h4>time:</h4>
+                    <label>hours:</label>
+                    <input type="number" min="0" max="23" id="gametimehour">
+                    <label>minutes:</label>
+                    <input type="number" min="0" max="59" id="gametimeminute"><br>
+                    <button id="updatetime">update</button>
+                </div>
+                <div id="inventorypane">
+                    <h2>inventory</h2>
+                    <ul>
+                        <li>your inventory is empty</li>
+                    </ul>
+                </div>
+                <div id="pausepane">
+                    <h2>paused</h2>
+                </div>
             </div>
         </div>
-        <script src="../hello-world/p5/p5.min.js"></script>
+        <script src="../hello-world/p5/p5.js"></script>
         <script src="js/_days.js"></script>
         <script src="js/_world.js"></script>
         <script src="js/_player.js"></script>

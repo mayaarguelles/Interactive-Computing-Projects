@@ -3,6 +3,8 @@
 // are referenced in the HTML document.  References to these documents are also included 
 // as comments within this file.
 
+var gameState = 1;
+
 // our world object - this object handles our tiles, drawing the world and converting screen
 // coordinates into game coordinates - see OverheadWorld.js for more information
 var theWorld;
@@ -17,13 +19,20 @@ var worldParameters = {
     tileFolder: 'assets/tiles',
     numTiles: 20,
     solidTiles: {
-        1: true,
+        1: true
     },
     cropTiles: {
         10: {
             name: 'wheat'
         },
         20: true
+    },
+    cultivatable: {
+        0: true,
+        2: true
+    },
+    wetTiles: {
+        2: true
     }
 };
 
@@ -86,26 +95,32 @@ function badStuffHappened(result) {
 }
 
 function draw() {
-    theWorld.displayWorld()
-    thePlayer.move();
-    thePlayer.display();
-    
-    if ( timeGate ) {
-        timeGate = false;
-        if ( theTime.progressTime() ) { // progress time, hook day change events
-            dayChangeEvents();
+    if ( gameState == 1) {
+        theWorld.displayWorld()
+        thePlayer.move();
+        thePlayer.display();
+
+        if ( timeGate ) {
+            timeGate = false;
+            if ( theTime.progressTime() ) { // progress time, hook day change events
+                dayChangeEvents();
+            }
         }
+        text("TIME: day " + theTime.day + " " + theTime.time.toString(), 10, 10 );
+    } else if ( gameState == 2 ) {
+        
     }
-    text("TIME: day " + theTime.day + " " + theTime.time.toString(), 10, 10 );
 }
 
 function keyPressed() {
-    if ( key == interactKey ) {
-        interactionEvents();
-    }
-    
-    if ( key == inventoryKey ) {
-        inventoryEvents();
+    if ( gameState == 1 ) {
+        if ( key == interactKey ) {
+            interactionEvents();
+        }
+
+        if ( key == inventoryKey ) {
+            inventoryEvents();
+        }
     }
 }
 
@@ -127,6 +142,22 @@ function interactionEvents() {
         console.log("THAT'S A CROP BABEY!!!!!! Specifically: " + worldParameters.cropTiles[baseCropID].name);
         cropInteraction( thePlayer.target.x, thePlayer.target.y, baseCropID, interactedTile );
     }
+    
+    if ( theWorld.isCultivatable( interactedTile ) ) {
+        if ( thePlayer.held.includes('seeds') ) {
+            console.log("YOU GOT SEEDS BABEY!!!!!!");
+            let heldExploded = thePlayer.held.split('-');
+            let cropID = parseInt(heldExploded[heldExploded.length - 1]);
+        
+            cropPlanting( thePlayer.target.x, thePlayer.target.y, cropID);
+        } else if ( thePlayer.held == 'wateringcan' ) {
+            if ( !theWorld.isWet( theWorld.tileMap[ thePlayer.target.y ][ thePlayer.target.x ] ) ) {
+                theWorld.tileMap[ thePlayer.target.y][ thePlayer.target.x ] += 2;
+            }
+        } else if ( thePlayer.held == -1 ) {
+            gameState == 2;
+        }
+    }
 }
 
 function cropInteraction( x, y, baseCropID, stateID ) {
@@ -138,15 +169,28 @@ function cropInteraction( x, y, baseCropID, stateID ) {
             theWorld.tileMap[y][x] += 5;
         }
     } if ( tool == 'scythe' ) {
-        theWorld.tileMap[y][x] = 0;
+        if ( stateID < 5 ) {
+            theWorld.tileMap[y][x] = 0;
+        } else {
+            theWorld.tileMap[y][x] = 2;
+        }
+    }
+}
+
+function cropPlanting( x, y, baseCropID ) {
+    if ( theWorld.isWet( theWorld.tileMap[y][x] ) ) {
+        console.log(baseCropID + 5);
+        theWorld.tileMap[y][x] = baseCropID + 5;
+    } else {
+        theWorld.tileMap[y][x] = baseCropID;
     }
 }
 
 function inventoryEvents() {
     if ( inventoryIsOpen ) {
-        
+        inventoryIsOpen = false;
     } else {
-        
+        inventoryIsOpen = true;
     }
 }
 
@@ -167,9 +211,52 @@ function dayChangeEvents() {
                 } else if ( stateID == 9 ) {
                     theWorld.tileMap[y][x] -= 5;
                 } else {
-                    // chance that the plant dies
+                    if ( Math.random() < 0.25 ) {
+                        theWorld.tileMap[y][x] = 0;
+                    }   
                 }
             }
         }
     }
 }
+
+
+var domButtons = document.querySelectorAll('button');
+
+
+/*--------------------------------*\
+	 DOM SHIT
+\*--------------------------------*/
+
+function buttonSetup() {
+    for (var i = 0; i < domButtons.length; i++) {
+        domButtons[i].addEventListener('click', buttonHandler);
+    }
+}
+
+function buttonHandler() {
+    let id = this.getAttribute('id');
+    console.log( id );
+    switch ( id ) {
+        case 'updateheld':
+            debug_updateHeld();
+            break;
+        case 'updatetime':
+            debug_updateTime();
+            break;
+        default:
+            break;
+    }
+}
+
+function debug_updateHeld() {
+    thePlayer.held = document.querySelector('#playerheld').value;
+    console.log("Now holding: " + thePlayer.held );
+}
+
+function debug_updateTime() {
+    theTime.time.hour = document.querySelector('#gametimehour').value;
+    theTime.time.minute = document.querySelector('#gametimeminute').value;
+}
+
+window.addEventListener('load', buttonSetup);
