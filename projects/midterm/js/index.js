@@ -3,7 +3,7 @@
 // are referenced in the HTML document.  References to these documents are also included 
 // as comments within this file.
 
-var gameState = 1;
+var gameState = 0;
 
 // our world object - this object handles our tiles, drawing the world and converting screen
 // coordinates into game coordinates - see OverheadWorld.js for more information
@@ -13,7 +13,10 @@ var theWorld;
 var thePlayer;
 
 var inventoryDOM = document.querySelector('#inventorypane'),
+    toolbarDOM = document.querySelector('#toolbar'),
     theInventory;
+
+var startScreen = document.querySelector('#startscreen');
 
 // create an object to hold our "world parameters" - we will send this object into our 
 // OverheadWorld to tell it how our world is organized
@@ -33,6 +36,7 @@ var worldParameters = {
         25: true,
         26: true,
         29: true,
+        33: true,
         42: true,
         44: true,
         45: true,
@@ -109,11 +113,31 @@ var inventoryIsOpen = false,
     saveGate = true,
     shopGate = true;
 
+var itemsLibrary;
+
+var money = 0;
+
+var parsedSpeech = "",
+    speechFlag = false,
+    speechTargetX,
+    speechTargetY,
+    responseJSON,
+    interpretedFlag = false;
+
+var sadReacts = [],
+    neutralReacts = [],
+    happyReacts = [],
+    selectedReact = 0,
+    reactFrame = 0,
+    reacting = false;
+
 // handle the tile loading and creating our player object in preload before the game can start
 function preload() {
 
     // load in room data
     roomData = loadJSON("data/maps.json");
+    
+    itemsLibrary = loadJSON("data/items.json");
 
     // create our world
     theWorld = new OverheadWorld(worldParameters);
@@ -121,13 +145,20 @@ function preload() {
     // create our player
     thePlayer = new Player(256, 256, theWorld);
     
-    theInventory = new Inventory();
-    
     // create game time
     let initTime = new Timeformat(0,0);
     console.log( initTime );
     theTime = new Gametime( 0, initTime );
     console.log( theTime );
+    
+    sadReacts = [ thePlayer.loadFrames( 'assets/effects/angry' ),
+                  thePlayer.loadFrames( 'assets/effects/heartbreak' ),
+                  thePlayer.loadFrames( 'assets/effects/scribble' ) ];
+    neutralReacts = [ thePlayer.loadFrames( 'assets/effects/speaking' ) ];
+    happyReacts = [ thePlayer.loadFrames( 'assets/effects/eyes' ),
+                  thePlayer.loadFrames( 'assets/effects/sparkle' ),
+                  thePlayer.loadFrames( 'assets/effects/music' ) ];
+    selectedReact = neutralReacts[0];
 }
 
 function setup() {
@@ -138,7 +169,40 @@ function setup() {
     // also let the world know which room we should start with
     theWorld.setupRooms( roomData, "start" );
     
+    theInventory = new Inventory( itemsLibrary );
+    grantStarterKit();
+    
     setInterval( gametimeInterval, tickTime );
+    
+    // create speech to text object
+    myRec = new p5.SpeechRec();
+
+    // set up our recorder to constantly monitor the incoming audio stream
+    myRec.continuous = true; // do continuous recognition
+
+    // allow partial results - this will detect words as they are said and will
+    // call the parse function as soon as a word is decoded
+    // when a pause in conversation occurs the entire string will be sent
+    // to the parse function
+    //myRec.interimResults = true;
+
+    // define our parse function (called every time a word/phrase is detected)
+    myRec.onResult = parseResult;
+}
+
+function grantStarterKit() {
+    let startercan = copyItem("wateringcan");
+    let starterscythe = copyItem("scythe");
+    let starterseeds = copyItem("wheatseeds");
+    
+    startercan.quantity = 1;
+    starterscythe.quantity = 1;
+    starterseeds.quantity = 12;
+    
+    theInventory.addItem( startercan );
+    theInventory.addItem( starterscythe );
+    theInventory.addItem( starterseeds );
+    theInventory.addItem( starterseeds );
 }
 
 function allDone(worldData) {
@@ -150,24 +214,19 @@ function badStuffHappened(result) {
 }
 
 function draw() {
-    if ( gameState == 1) {
+    if ( gameState == 0 ) {
+        background('#eee');
+        
+    } else if ( gameState == 1) {
         theWorld.displayWorld()
         let touched = thePlayer.move();
         if ( touched.includes( 59 ) ) {
             if ( saveGate ) {
-                console.log( "SAVE THE GAME" );
+                savePrompt( true );
                 saveGate = false;
                 setTimeout(function() {
                     saveGate = true;
-                }, 500);
-            }
-        } else if ( touched.includes( 82 ) || touched.includes( 85 ) ) {
-            if ( shopGate ) {
-                console.log( "SHOP" );
-                shopGate = false;
-                setTimeout(function() {
-                    shopGate = true;
-                }, 500);
+                }, 1000);
             }
         }
         thePlayer.display();
@@ -178,6 +237,55 @@ function draw() {
                 dayChangeEvents();
             }
         }
+        
+        if ( speechFlag ) {
+            console.log( "PARSED: " + parsedSpeech );
+            speechFlag = false;
+            evaluatePhrase( parsedSpeech );
+            thePlayer.speaking = false;
+        }
+        
+        if ( interpretedFlag ) {
+            interpretedFlag = false;
+            if ( responseJSON.label == 'neg' ) { // if something negative was said
+                let reactInd = Math.floor(Math.random() * sadReacts.length);
+                selectedReact = sadReacts[reactInd];
+                let deathChance = Math.random();
+                console.log ( "deathgen: "+ deathChance );
+                if ( deathChance < 0.05) {
+                    theWorld.tileMap[speechTargetY][speechTargetX] = 3;
+                }
+            } else if ( responseJSON.label == 'neutral' ) { // if something neutral was said
+                let reactInd = Math.floor(Math.random() * neutralReacts.length);
+                selectedReact = neutralReacts[reactInd];
+            } else { // if something positive was said
+                let reactInd = Math.floor(Math.random() * happyReacts.length);
+                selectedReact = happyReacts[reactInd];
+                let growthChance = Math.random();
+                console.log( "growthgen: " + growthChance );
+                if ( growthChance < 0.15 ) {
+                    let state = theWorld.tileMap[speechTargetY][speechTargetX] % 5;
+                    if ( state != 4 ) {
+                        theWorld.tileMap[speechTargetY][speechTargetX] += 1;
+                    }
+                }
+            }
+            
+            let reactInterval = setInterval(function() {
+                reacting = true;
+                reactFrame++;
+            }, 300);
+            
+            setTimeout(function() {
+                reacting = false;
+                clearInterval( reactInterval );
+            }, 1200);
+        }
+        
+        if ( reacting ) {
+            image( selectedReact[reactFrame % 3], speechTargetX * 32, speechTargetY * 32 - 32 );
+        }
+        
         text("TIME: day " + theTime.day + " " + theTime.time.toString(), 10, 10 );
     } else if ( gameState == 2 ) {
         
@@ -195,7 +303,7 @@ function keyPressed() {
         }
         
         if ( hotbarKeys.includes( key )  ) {
-            theInventory.updateHeld( key );
+            thePlayer.held = theInventory.updateHeld( key );
         }
     }
 }
@@ -224,7 +332,16 @@ function interactionEvents() {
             console.log("YOU GOT SEEDS BABEY!!!!!!");
             let heldExploded = thePlayer.held.split('-');
             let cropID = parseInt(heldExploded[heldExploded.length - 1]);
-        
+            
+            let cur = theInventory.cur - 1;
+            if ( cur == -1 ) {
+                cur = 9;
+            }
+            
+            theInventory.items[theInventory.toolbar[ cur ].index].quantity--;
+            theInventory.displayInventory();
+            theInventory.updateToolbar();
+            
             cropPlanting( thePlayer.target.x, thePlayer.target.y, cropID);
         } else if ( thePlayer.held == 'wateringcan' ) {
             if ( !theWorld.isWet( theWorld.tileMap[ thePlayer.target.y ][ thePlayer.target.x ] ) ) {
@@ -237,6 +354,27 @@ function interactionEvents() {
     
     if ( interactedTile == 87 ) {
         giftEvents();
+    }
+    
+    if ( interactedTile == 81 || interactedTile == 78 ) {
+        if ( thePlayer.held == 'wheat' ) { // need to program to be flexible for other crops!
+            let cur = theInventory.cur - 1;
+            if ( cur == -1 ) {
+                cur = 9;
+            }
+            
+            console.log( "cur: " + cur );
+            
+            let index = theInventory.toolbar[ cur ].index;
+            
+            console.log( "index: " + index );
+            
+            money += theInventory.sell( index, cur );
+            console.log( money );
+            theInventory.displayInventory();
+            theInventory.updateToolbar();
+            
+        }
     }
 }
 
@@ -254,6 +392,22 @@ function cropInteraction( x, y, baseCropID, stateID ) {
         } else {
             theWorld.tileMap[y][x] = 4;
         }
+        
+        if ( stateID == 4 || stateID == 9 ) {
+            let crop = copyItem( baseCropID );
+            crop.quantity = 1;
+            theInventory.addItem( crop );
+        }
+    } if ( tool == -1 ) {
+        thePlayer.speaking = true;
+        let speakInterval = setInterval(function() {
+            thePlayer.currentSpeaking++;
+        }, 300);
+        
+        // start the recording engine
+        speechTargetX = x;
+        speechTargetY = y;
+        myRec.start();
     }
 }
 
@@ -294,7 +448,7 @@ function dayChangeEvents() {
                     theWorld.tileMap[y][x] -= 5;
                 } else {
                     if ( Math.random() < 0.25 ) {
-                        theWorld.tileMap[y][x] = 0;
+                        theWorld.tileMap[y][x] = 3;
                     }   
                 }
             }
@@ -309,6 +463,11 @@ function dayChangeEvents() {
 
 function giftEvents() {
     theWorld.tileMap[3][5] = 60;
+    let giftedSeeds = Math.ceil( Math.random() * 12);
+    let seedsGift = copyItem("wheatseeds");
+    seedsGift.quantity = giftedSeeds;
+    console.log( seedsGift );
+    theInventory.addItem( seedsGift );
 }
 
 
@@ -335,6 +494,22 @@ function buttonHandler() {
         case 'updatetime':
             debug_updateTime();
             break;
+        case 'savegame':
+            saveGame();
+            break;
+        case 'closesave':
+            savePrompt( false );
+            break;
+        case 'newgame':
+            startScreen.classList.remove('active');
+            toolbarDOM.classList.add('active');
+            gameState = 1;
+            break;
+        case 'loadgame':
+            startScreen.classList.remove('active');
+            toolbarDOM.classList.add('active');
+            loadGame();
+            break;
         default:
             break;
     }
@@ -352,7 +527,162 @@ function debug_updateTime() {
 
 window.addEventListener('load', buttonSetup);
 
+var savePane = document.querySelector('#savepane');
+
+function savePrompt( opening ) {
+    if ( opening ) {
+        console.log('opening');
+        savePane.classList.add('active');
+    } else {
+        savePane.classList.remove('active');
+    }
+}
+
 function saveGame() {
-    console.log( JSON.stringify( theWorld ) );
-    console.log(JSON.parse( JSON.stringify( theWorld ) ));
+    let worldString = JSON.stringify( theWorld.tileMap );
+    let inventoryString = JSON.stringify( theInventory );
+    let moneyString = money;
+    let dayString = theTime.day;
+    let dateObj = new Date();
+    let dateString = dateObj.toDateString();
+    
+    setCookie("world", worldString, 365 * 5);
+    console.log( document.cookie );
+    setCookie("inventory", inventoryString, 365 * 5);
+    console.log( document.cookie );
+    setCookie("money", moneyString, 365 * 5);
+    console.log( document.cookie );
+    setCookie("day", dayString);
+    setCookie("date", dateString);
+    
+    
+    console.log( document.cookie );
+}
+
+function loadGame() {
+    let worldSave = JSON.parse( getCookie("world") );
+    let inventorySave = JSON.parse( getCookie("inventory") );
+    let moneySave = getCookie("money");
+    let daySave = getCookie("day");
+    let dateSave = new Date(getCookie("date"));
+    
+    console.log("LOADING...");
+    console.log( worldSave );
+    console.log( inventorySave );
+    console.log( moneySave );
+    
+    if ( worldSave.length > 1 ) {
+        theInventory.cur = inventorySave.cur;
+        theInventory.items = inventorySave.items;
+        theInventory.toolbar = inventorySave.toolbar;
+
+        theInventory.displayInventory();
+        theInventory.updateToolbar();
+
+        theWorld.tileMap = worldSave;
+
+        money = moneySave;
+        
+        theTime.day = daySave;
+        
+        console.log( dateSave );
+        console.log ( new Date() );
+        
+        let daysToSim = msToDays( new Date() - dateSave );
+        
+        console.log("Days missed since last save: " + daysToSim );
+        
+        for ( let i = 0; i < daysToSim; i++ ) {
+            theTime.day++;
+            dayChangeEvents();
+        }
+        
+    }
+    
+    gameState = 1;
+}
+
+function msToDays( ms ) {
+    let seconds = parseInt( Math.floor( ms / 1000 ) );
+    let minutes = parseInt( Math.floor( seconds / 60 ) );
+    let hours = parseInt( Math.floor( minutes / 60 ) );
+    let days = parseInt( Math.floor( hours / 24 ) );
+    
+    return days;
+}
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+// called every time a word/phrase is detected
+function parseResult() {
+  // myRec.resultString is the current result
+  //text(myRec.resultString, 25, 25);
+    console.log(myRec.resultString);
+    parsedSpeech = myRec.resultString;
+    speechFlag = true;
+//		var mostrecentword = myRec.resultString.split(' ').pop();
+}
+
+function evaluatePhrase( phrase ) {
+    console.log( phrase );
+    
+    var xhttp = new XMLHttpRequest()
+    
+    phrase = encodeURIComponent( phrase );
+
+    // AJAX THAT SHYT
+    xhttp.open("GET", "speech-interpretation/request.php?text=" + phrase  , true);
+    
+    console.log("request.php?text=" + phrase );
+    
+    xhttp.onreadystatechange = function() {
+        if ( this.readyState == 4 && this.status == 200 ) { // on success
+            console.log( JSON.parse( this.response ) );
+            responseJSON = JSON.parse( this.responseText );
+        } else if ( this.status == 503 ) {
+            responseJSON =  {
+                label: 'Exceeded daily request limit.'
+            };
+        } else {
+            responseJSON = {
+                label: 'Nothing happened'
+            }
+        }
+        
+        interpretedFlag = true;
+    }
+    
+    console.log( 'loading...' );
+    
+    xhttp.send();
+}
+
+// for debug
+function giveGift() {
+    theWorld.tileMap[3][5] = 87;
+}
+
+function copyItem( name ) {
+    return JSON.parse( JSON.stringify( itemsLibrary[name] ) );
 }

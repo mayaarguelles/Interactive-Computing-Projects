@@ -16,7 +16,34 @@ function Player(x, y, world) {
     
     this.held = -1;
     
+    this.numFrames = 3;
+    
+    this.loadFrames = function( directory ) {
+        let buf = [];
+        
+        for ( let i = 0; i < this.numFrames; i++ ) {            
+            buf.push( loadImage(  directory + '_' + i + '.png' ) );
+        }
+        
+        console.log( buf );
+        
+        return buf;
+    }
+    
+    this.artworkLeft = this.loadFrames( 'assets/player/left' );
+    this.artworkRight = this.loadFrames( 'assets/player/right' );
+    this.artworkUp = this.loadFrames( 'assets/player/up' );
+    this.artworkDown = this.loadFrames( 'assets/player/down' );
+    
+    this.currentImage = this.artworkDown;
+    this.currentFrame = 0;
+    
     this.targetImg = loadImage( 'assets/player/target.png' );
+    
+    this.speaking = false;
+    this.speakingFrames = this.loadFrames( 'assets/effects/speaking' );
+    this.currentSpeaking = 0;
+    
 
     // display our player
     this.display = function() {
@@ -25,8 +52,12 @@ function Player(x, y, world) {
         fill('black');
         this.displayHeld();
         fill('white');
-        //image(this.currentImage, this.x, this.y);
-        rect(this.x, this.y, this.width, this.height);
+        image(this.currentImage[this.currentFrame % this.numFrames], this.x, this.y);
+        //rect(this.x, this.y, this.width, this.height);
+        
+        if ( this.speaking ) {
+            image( this.speakingFrames[this.currentSpeaking % this.numFrames], this.x, this.y - 32);
+        }
         
     }
 
@@ -34,13 +65,13 @@ function Player(x, y, world) {
     this.displaySensor = function(direction) {
         fill(255);
         if (direction == "up") {
-            ellipse(this.top[0], this.top[1], 20, 20);
+            //ellipse(this.top[0], this.top[1], 20, 20);
         } else if (direction == "down") {
-            ellipse(this.bottom[0], this.bottom[1], 20, 20);
+            //ellipse(this.bottom[0], this.bottom[1], 20, 20);
         } else if (direction == "right") {
-            ellipse(this.right[0], this.right[1], 20, 20);
+            //ellipse(this.right[0], this.right[1], 20, 20);
         } else if (direction == "left") {
-            ellipse(this.left[0], this.left[1], 20, 20);
+            //ellipse(this.left[0], this.left[1], 20, 20);
         }
     }
 
@@ -109,6 +140,7 @@ function Player(x, y, world) {
 
             // change artwork
             this.currentImage = this.artworkLeft;
+            this.currentFrame++;
             this.displaySensor("left");
         }
         
@@ -140,6 +172,7 @@ function Player(x, y, world) {
 
             // change artwork
             this.currentImage = this.artworkRight;
+            this.currentFrame++;
             this.displaySensor("right");
         }
         
@@ -171,6 +204,7 @@ function Player(x, y, world) {
 
             // change artwork
             this.currentImage = this.artworkDown;
+            this.currentFrame++;
             this.displaySensor("down");
         }
         
@@ -201,7 +235,13 @@ function Player(x, y, world) {
 
         // change artwork
         this.currentImage = this.artworkUp;
+        this.currentFrame++;
         this.displaySensor("up");
+        }
+        
+        if ( !(keyIsDown(UP_ARROW) || keyIsDown(119) || keyIsDown(87)) && !(keyIsDown(DOWN_ARROW) || keyIsDown(115) || keyIsDown(83)) &&  !(keyIsDown(LEFT_ARROW) || keyIsDown(97) || keyIsDown(65)) && !(keyIsDown(RIGHT_ARROW) || keyIsDown(100) || keyIsDown(68)) ) {
+            // idle anim
+            this.currentFrame = 0;
         }
         
         return touchedTiles;
