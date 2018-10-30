@@ -15,6 +15,8 @@ function Player(x, y, world) {
     this.height = 20;
     
     this.held = -1;
+    
+    this.targetImg = loadImage( 'assets/player/target.png' );
 
     // display our player
     this.display = function() {
@@ -54,7 +56,9 @@ function Player(x, y, world) {
     this.target = this.world.getTile(this.x, this.y, true);
     
     this.displayTarget = function() {
-        rect(this.target.x * this.world.tileSize, this.target.y * this.world.tileSize, this.world.tileSize, this.world.tileSize);
+        //rect(this.target.x * this.world.tileSize, this.target.y * this.world.tileSize, this.world.tileSize, this.world.tileSize);
+        imageMode(CORNER);
+        image( this.targetImg, this.target.x * this.world.tileSize, this.target.y * this.world.tileSize );
     }
     
     this.displayHeld = function() {
@@ -69,6 +73,7 @@ function Player(x, y, world) {
     this.move = function() {
         // refresh our "sensors" - these will be used for movement & collision detection
         this.refreshSensors();
+        let touchedTiles = [];
 
         // see if one of our movement keys is down -- if so, we should try and move
         // note that this character responds to the following key combinations:
@@ -79,6 +84,7 @@ function Player(x, y, world) {
 
             // see which tile is to our left
             var tile = world.getTile(this.left[0], this.left[1]);
+            touchedTiles.push( tile );
             this.updateTarget( this.left[0] - this.world.tileSize, this.left[1] );
 
             // would moving in this direction require a room change?
@@ -109,6 +115,7 @@ function Player(x, y, world) {
         if (keyIsDown(RIGHT_ARROW) || keyIsDown(100) || keyIsDown(68)) {
             // see which tile is to our right
             var tile = world.getTile(this.right[0], this.right[1]);
+            touchedTiles.push( tile );
             this.updateTarget( this.right[0] + this.world.tileSize, this.right[1] );
 
             // would moving in this direction require a room change?
@@ -139,6 +146,7 @@ function Player(x, y, world) {
         if (keyIsDown(DOWN_ARROW) || keyIsDown(115) || keyIsDown(83)) {
             // see which tile is below us
             var tile = world.getTile(this.bottom[0], this.bottom[1]);
+            touchedTiles.push( tile );
             this.updateTarget( this.bottom[0], this.bottom[1] + this.world.tileSize );
 
             // would moving in this direction require a room change?
@@ -169,6 +177,7 @@ function Player(x, y, world) {
         if (keyIsDown(UP_ARROW) || keyIsDown(119) || keyIsDown(87)) {
             // see which tile is below us
             var tile = world.getTile(this.top[0], this.top[1]);
+            touchedTiles.push( tile );
             this.updateTarget( this.top[0], this.top[1] - this.world.tileSize );
 
             // would moving in this direction require a room change?
@@ -194,5 +203,7 @@ function Player(x, y, world) {
         this.currentImage = this.artworkUp;
         this.displaySensor("up");
         }
+        
+        return touchedTiles;
     }
 }

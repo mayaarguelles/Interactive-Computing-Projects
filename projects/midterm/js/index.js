@@ -12,34 +12,83 @@ var theWorld;
 // our user controlled character object - see Player.js for more information
 var thePlayer;
 
+var inventoryDOM = document.querySelector('#inventorypane'),
+    theInventory;
+
 // create an object to hold our "world parameters" - we will send this object into our 
 // OverheadWorld to tell it how our world is organized
 var worldParameters = {
     tileSize: 32,
     tileFolder: 'assets/tiles',
-    numTiles: 20,
+    numTiles: 88,
     solidTiles: {
-        1: true
+        0: true,
+        1: true,
+        5: true,
+        20: true,
+        21: true,
+        22: true,
+        23: true,
+        24: true,
+        25: true,
+        26: true,
+        29: true,
+        42: true,
+        44: true,
+        45: true,
+        46: true,
+        47: true,
+        48: true,
+        49: true,
+        50: true,
+        51: true,
+        52: true,
+        53: true,
+        54: true,
+        55: true,
+        56: true,
+        57: true,
+        58: true,
+        59: true,
+        60: true,
+        61: true,
+        65: true,
+        66: true,
+        67: true,
+        68: true,
+        69: true,
+        70: true,
+        71: true,
+        72: true,
+        73: true,
+        74: true,
+        75: true,
+        76: true,
+        77: true,
+        78: true,
+        79: true,
+        81: true,
+        82: true,
+        87: true
     },
     cropTiles: {
         10: {
             name: 'wheat'
         },
-        20: true
     },
     cultivatable: {
-        0: true,
-        2: true
+        3: true,
+        4: true
     },
     wetTiles: {
-        2: true
+        4: true
     }
 };
 
 var canvas;
 
-var canvasWidth = 500,
-    canvasHeight = 500;
+var canvasWidth = 512,
+    canvasHeight = 512;
 
 
 // room data - loaded in from an external file (see 'data/rooms.json')
@@ -53,8 +102,12 @@ var tickTime = 500;
 var interactKey = 'e',
     inventoryKey = 'i';
 
+var hotbarKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
 /* states and such */
-var inventoryIsOpen = false;
+var inventoryIsOpen = false,
+    saveGate = true,
+    shopGate = true;
 
 // handle the tile loading and creating our player object in preload before the game can start
 function preload() {
@@ -66,7 +119,9 @@ function preload() {
     theWorld = new OverheadWorld(worldParameters);
 
     // create our player
-    thePlayer = new Player(100, 100, theWorld);
+    thePlayer = new Player(256, 256, theWorld);
+    
+    theInventory = new Inventory();
     
     // create game time
     let initTime = new Timeformat(0,0);
@@ -97,7 +152,24 @@ function badStuffHappened(result) {
 function draw() {
     if ( gameState == 1) {
         theWorld.displayWorld()
-        thePlayer.move();
+        let touched = thePlayer.move();
+        if ( touched.includes( 59 ) ) {
+            if ( saveGate ) {
+                console.log( "SAVE THE GAME" );
+                saveGate = false;
+                setTimeout(function() {
+                    saveGate = true;
+                }, 500);
+            }
+        } else if ( touched.includes( 82 ) || touched.includes( 85 ) ) {
+            if ( shopGate ) {
+                console.log( "SHOP" );
+                shopGate = false;
+                setTimeout(function() {
+                    shopGate = true;
+                }, 500);
+            }
+        }
         thePlayer.display();
 
         if ( timeGate ) {
@@ -120,6 +192,10 @@ function keyPressed() {
 
         if ( key == inventoryKey ) {
             inventoryEvents();
+        }
+        
+        if ( hotbarKeys.includes( key )  ) {
+            theInventory.updateHeld( key );
         }
     }
 }
@@ -152,11 +228,15 @@ function interactionEvents() {
             cropPlanting( thePlayer.target.x, thePlayer.target.y, cropID);
         } else if ( thePlayer.held == 'wateringcan' ) {
             if ( !theWorld.isWet( theWorld.tileMap[ thePlayer.target.y ][ thePlayer.target.x ] ) ) {
-                theWorld.tileMap[ thePlayer.target.y][ thePlayer.target.x ] += 2;
+                theWorld.tileMap[ thePlayer.target.y][ thePlayer.target.x ] = 4;
             }
         } else if ( thePlayer.held == -1 ) {
             gameState == 2;
         }
+    }
+    
+    if ( interactedTile == 87 ) {
+        giftEvents();
     }
 }
 
@@ -170,9 +250,9 @@ function cropInteraction( x, y, baseCropID, stateID ) {
         }
     } if ( tool == 'scythe' ) {
         if ( stateID < 5 ) {
-            theWorld.tileMap[y][x] = 0;
+            theWorld.tileMap[y][x] = 3;
         } else {
-            theWorld.tileMap[y][x] = 2;
+            theWorld.tileMap[y][x] = 4;
         }
     }
 }
@@ -189,8 +269,10 @@ function cropPlanting( x, y, baseCropID ) {
 function inventoryEvents() {
     if ( inventoryIsOpen ) {
         inventoryIsOpen = false;
+        inventoryDOM.classList.remove('active');
     } else {
         inventoryIsOpen = true;
+        inventoryDOM.classList.add('active');
     }
 }
 
@@ -218,6 +300,15 @@ function dayChangeEvents() {
             }
         }
     }
+    
+    // chance that you get a gift
+    if ( Math.random() < 0.15 ) {
+        theWorld.tileMap[3][5] = 87;
+    }
+}
+
+function giftEvents() {
+    theWorld.tileMap[3][5] = 60;
 }
 
 
@@ -260,3 +351,8 @@ function debug_updateTime() {
 }
 
 window.addEventListener('load', buttonSetup);
+
+function saveGame() {
+    console.log( JSON.stringify( theWorld ) );
+    console.log(JSON.parse( JSON.stringify( theWorld ) ));
+}

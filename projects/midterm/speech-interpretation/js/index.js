@@ -4,22 +4,26 @@ var JSONreturn;
 
 function handleSubmit( event ) {
     event.preventDefault();
-    let input = document.querySelector('#input').value ;
-    console.log( input );
+    let input = document.querySelector('#input');
+    console.log( input.value );
     
-    JSONreturn = evaluatePhrase( input );
+    JSONreturn = evaluatePhrase( input.value );
     console.log( JSONreturn );
     
     output.innerHTML = "<b>Response:</b> " + JSONreturn.label;
 }
 
 function evaluatePhrase( phrase ) {
+    console.log( phrase );
+    
     var xhttp = new XMLHttpRequest()
     
     phrase = encodeURIComponent( phrase );
 
     // AJAX THAT SHYT
-    xhttp.open("GET", "request.php?text=" + input  , true);
+    xhttp.open("GET", "request.php?text=" + phrase  , true);
+    
+    console.log("request.php?text=" + phrase );
     
     xhttp.onreadystatechange = function() {
         var responseJSON;

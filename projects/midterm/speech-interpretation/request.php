@@ -1,7 +1,7 @@
 <?php
 $request_url = "http://text-processing.com/api/sentiment/";
 
-$input = $_GET['text'];
+$input = urlencode( $_GET['text'] );
 
 $api_call = curl_init( $request_url );
 curl_setopt( $api_call, CURLOPT_POST, 1 );
