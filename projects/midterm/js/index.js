@@ -100,7 +100,7 @@ var roomData;
 
 var timeGate = false;
 var theTime;
-var tickTime = 500;
+var tickTime = 1000 * 60;
 
 /* CONTROLS */
 var interactKey = 'e',
@@ -131,6 +131,10 @@ var sadReacts = [],
     reactFrame = 0,
     reacting = false;
 
+var timeDOM = document.querySelector('#time'),
+    dayDOM = document.querySelector('#day'),
+    moneyDOM = document.querySelector('#money');
+
 // handle the tile loading and creating our player object in preload before the game can start
 function preload() {
 
@@ -146,7 +150,7 @@ function preload() {
     thePlayer = new Player(256, 256, theWorld);
     
     // create game time
-    let initTime = new Timeformat(0,0);
+    let initTime = new Timeformat( new Date().getHours(), new Date().getMinutes());
     console.log( initTime );
     theTime = new Gametime( 0, initTime );
     console.log( theTime );
@@ -286,7 +290,11 @@ function draw() {
             image( selectedReact[reactFrame % 3], speechTargetX * 32, speechTargetY * 32 - 32 );
         }
         
-        text("TIME: day " + theTime.day + " " + theTime.time.toString(), 10, 10 );
+        dayDOM.textContent = "Day " + theTime.day;
+        timeDOM.textContent = theTime.time.toString();
+        moneyDOM.textContent = "$" + money;
+        
+        //text("TIME: day " + theTime.day + " " + theTime.time.toString(), 10, 10 );
     } else if ( gameState == 2 ) {
         
     }

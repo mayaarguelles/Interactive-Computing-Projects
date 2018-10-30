@@ -65,6 +65,9 @@ body, html {
                 background: #eeeeee;
                 border: 2px ridge #b880c0;
                 position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 &::after {
                     content: attr(data-quantity);
                     position: absolute;
@@ -83,8 +86,8 @@ body, html {
                     }
                 }
                 img {
-                    width: 32px;
-                    height: 32px;
+                    width: 24px;
+                    height: 24px;
                 }
             }
         } #savepane {
@@ -150,6 +153,40 @@ body, html {
                 font-size: 24px;
                 margin: 0 36px;
                 margin-bottom: 12px;
+            } pre {
+                font-family: 'Courier', monospace;
+                font-size: 8px;
+                width: auto;
+            } .buttonsholder {
+                margin-top: 40px;
+            }
+        } #infopane {
+            position: absolute;
+            right: 12px;
+            top: 12px;
+            width: 96px;
+            height: auto;
+            text-align: center;
+            background: #eee;
+            border: 2px ridge #b880c0;
+            display: none;
+            flex-direction: row;
+            align-items: stretch;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            box-sizing: border-box;
+            &.active {
+                display: flex;
+            } > div {
+                border: 2px ridge #b880c0;
+                box-sizing: border-box;
+                padding: 0 4px;
+            } #time {
+                 flex: 1 0 0;
+            } #day {
+                flex: 0 0 auto;
+            } #money {
+                flex: 0 0 100%;
             }
         }
     }

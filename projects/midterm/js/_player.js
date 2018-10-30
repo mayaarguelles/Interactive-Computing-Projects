@@ -50,7 +50,7 @@ function Player(x, y, world) {
         imageMode(CORNER);
         this.displayTarget();
         fill('black');
-        this.displayHeld();
+        //this.displayHeld();
         fill('white');
         image(this.currentImage[this.currentFrame % this.numFrames], this.x, this.y);
         //rect(this.x, this.y, this.width, this.height);

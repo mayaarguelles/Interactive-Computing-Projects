@@ -69,17 +69,20 @@ body, html {
         height: 32px;
         background: #eeeeee;
         border: 2px ridge #b880c0;
-        position: relative; }
-        /* line 68, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center; }
+        /* line 71, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
         .container #otherpanes #toolbar div::after {
           content: attr(data-quantity);
           position: absolute;
           right: 2px;
           bottom: 2px; }
-        /* line 74, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
+        /* line 77, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
         .container #otherpanes #toolbar div.active {
           background-image: url("../assets/player/target.png"); }
-          /* line 76, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
+          /* line 79, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
           .container #otherpanes #toolbar div.active::before {
             content: attr(data-label);
             position: absolute;
@@ -87,11 +90,11 @@ body, html {
             width: 32px;
             text-align: center;
             line-height: 0.5em; }
-        /* line 85, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
+        /* line 88, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
         .container #otherpanes #toolbar div img {
-          width: 32px;
-          height: 32px; }
-    /* line 90, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
+          width: 24px;
+          height: 24px; }
+    /* line 93, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
     .container #otherpanes #savepane {
       position: absolute;
       left: 50%;
@@ -103,10 +106,10 @@ body, html {
       background: #eee;
       border: 2px ridge #b880c0;
       display: none; }
-      /* line 101, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
+      /* line 104, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
       .container #otherpanes #savepane.active {
         display: block; }
-      /* line 103, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
+      /* line 106, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
       .container #otherpanes #savepane #closesave {
         border: 2px ridge #b880c0;
         position: absolute;
@@ -124,7 +127,7 @@ body, html {
         line-height: 6px;
         padding: 0;
         margin: 0; }
-      /* line 120, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
+      /* line 123, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
       .container #otherpanes #savepane #savegame {
         border: 2px ridge #b880c0;
         background: #eee;
@@ -133,10 +136,10 @@ body, html {
         font-family: 'Pixel', monospace;
         font-size: 16px;
         margin-bottom: 12px; }
-      /* line 128, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
+      /* line 131, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
       .container #otherpanes #savepane p {
         font-size: 16px; }
-    /* line 131, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
+    /* line 134, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
     .container #otherpanes #startscreen {
       position: absolute;
       left: 0;
@@ -148,10 +151,10 @@ body, html {
       align-items: center;
       justify-content: center;
       text-align: center; }
-      /* line 142, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
+      /* line 145, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
       .container #otherpanes #startscreen.active {
         display: flex; }
-      /* line 144, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
+      /* line 147, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
       .container #otherpanes #startscreen button {
         border: 2px ridge #b880c0;
         background: #eee;
@@ -161,5 +164,46 @@ body, html {
         font-size: 24px;
         margin: 0 36px;
         margin-bottom: 12px; }
+      /* line 156, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
+      .container #otherpanes #startscreen pre {
+        font-family: 'Courier', monospace;
+        font-size: 8px;
+        width: auto; }
+      /* line 160, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
+      .container #otherpanes #startscreen .buttonsholder {
+        margin-top: 40px; }
+    /* line 163, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
+    .container #otherpanes #infopane {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      width: 96px;
+      height: auto;
+      text-align: center;
+      background: #eee;
+      border: 2px ridge #b880c0;
+      display: none;
+      flex-direction: row;
+      align-items: stretch;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      box-sizing: border-box; }
+      /* line 178, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
+      .container #otherpanes #infopane.active {
+        display: flex; }
+      /* line 180, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
+      .container #otherpanes #infopane > div {
+        border: 2px ridge #b880c0;
+        box-sizing: border-box;
+        padding: 0 4px; }
+      /* line 184, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
+      .container #otherpanes #infopane #time {
+        flex: 1 0 0; }
+      /* line 186, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
+      .container #otherpanes #infopane #day {
+        flex: 0 0 auto; }
+      /* line 188, /Users/maya/Desktop/school/MAMP/ic-portfolio/projects/midterm/css/style.scss */
+      .container #otherpanes #infopane #money {
+        flex: 0 0 100%; }
 
 /*# sourceMappingURL=style.css.map */

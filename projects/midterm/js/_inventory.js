@@ -135,7 +135,7 @@ function Inventory( library ) {
         if ( item.name != -1 ) {
             changingIMG.src = ( 'assets/items/' + item.name + '.png' );
         } else {
-            changingIMG.src = "";
+            changingIMG.src = "assets/items/none.png";
         }
         
     }
@@ -164,7 +164,7 @@ function Inventory( library ) {
                 if ( this.items[ toShow.index ].name != -1 ) {
                     changingIMG.src = ( 'assets/items/' + this.items[ toShow.index ].name + '.png' );
                 } else {
-                    changingIMG.src = "";
+                    changingIMG.src = "assets/items/none.png";
                 }
             } else {
                 let changing = document.querySelector('#tool-' + index);
@@ -174,7 +174,7 @@ function Inventory( library ) {
                 changing.setAttribute( 'data-name', "" );
                 changing.setAttribute( 'data-quantity', "" );
                 
-                changingIMG.src = "";
+                changingIMG.src = "assets/items/none.png";
             }
             
             
