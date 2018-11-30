@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>AR Tamagotchi</title>
+        
+        <link href="css/style.css" rel="stylesheet" type="text/css">
+        <meta charset="UTF-8">
+        
+    </head>
+    <body>
+        <div class="vitals">
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            Vital
+                        </th>
+                        <th>
+                            Value
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>
+                            Hunger
+                        </th>
+                        <td id="hunger">
+                            100
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Happiness
+                        </th>
+                        <td id="happiness">
+                            100
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="interaction">
+            <button id="feed">Feed</button>
+            <button id="pet">Pet</button>
+        </div>
+        
+        <script src="../../libraries/p5.js"></script>
+        <script src="js/_pet.js"></script>
+        <script src="js/index.js"></script>
+    </body>
+</html>
