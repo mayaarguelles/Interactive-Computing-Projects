@@ -5,36 +5,218 @@
         
         <link href="css/style.css" rel="stylesheet" type="text/css">
         <meta charset="UTF-8">
+
+		<!-- Custom Styles -->
+		<style type="text/css">
+			body {
+				margin: 0px;
+				overflow: hidden;
+			}
+
+      /* shows a warning message when the screen is rotated into portrait mode -- necessary to prevent issues on mobile devices */
+			@media screen and (orientation:portrait) {
+				#portrait_warning {
+					position: fixed;
+					top: 0px;
+					left: 0px;
+					width: 100%;
+					height: 100%;
+					text-align: center;
+					background: white;
+					z-index: 1000;
+					display: block;
+				}
+			}
+
+      /* hides the rotational warning when the screen is in landscape mode */
+			@media screen and (orientation:landscape) {
+				#portrait_warning {
+					display: none;
+				}
+			}
+            
+            * {
+                box-sizing: border-box;
+            }
+            
+            .vitals {
+                position: fixed;
+                display: flex;
+                align-items: flex-end;
+                bottom: 18px;
+                left: 24px;
+                background: white;
+                z-index: 9999999999999999999;
+                padding-bottom: 8px;
+                padding-top: 8px;
+                border: 1px solid black;
+            }
+            
+            .vitals .sprite {
+                margin-left: 12px;
+                width: 33px;
+                height: 0;
+                position: relative;
+            }
+            
+            .vitals .sprite img {
+                position: absolute;
+                left: 0;
+                bottom: 0;
+            }
+            
+            .vitals table {
+                margin-left: 12px;
+            }
+            
+            .vitals table, .vitals thead, .vitals tbody, .vitals tr, .vitals td, .vitals th {
+                display: block;
+            }
+            
+            .vitals tbody {
+                display: flex;
+                align-items: flex-start;
+                flex-wrap: wrap;
+                width: 424px;
+            }
+            
+            .vitals tr {
+                display: flex;
+                align-items: center;
+            }
+            
+            .vitals th {
+                width: 80px;
+                text-align: left;
+            }
+            
+            .vitals td {
+                position: relative;
+                width: 120px;
+                height: 8px;
+                margin-right: 12px;
+            }
+            
+            .vitals td div {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background: rgb(230,230,230);
+                border: 1px solid black;
+            }
+            
+            .vitals td span {
+                display: block;
+                position: absolute;
+                height:  100%;
+                left: 0;
+                top: 0;
+                
+                background: black;
+            }
+            
+            .interaction {
+                position: fixed;
+                bottom: 8px;
+                left: 80px;
+                z-index: 9999999999999999999;
+            }
+            
+            #ARScene, #edfaultCanvas0 {
+                z-index: 1;
+            }
+		</style>
+        
+        <!-- A-Frame VR Library -->
+		<script src="../../libraries/aframe.min.js"></script>
+
+		<!-- ARToolKit for A-Frame VR Library -->
+		<script src='../../libraries/aframe-ar.js'></script>
+
+		<!-- P5 libraries -->
+		<script language="javascript" type="text/javascript" src="../../libraries/p5.js"></script>
+		<script language="javascript" type="text/javascript" src="../../libraries/p5.dom.min.js"></script>
+        <script src="../hello-world/p5/addons/p5.sound.min.js"></script>
+
+		<!-- Craig's AFrameP5 AR library -->
+		<script language="javascript" type="text/javascript" src="../../libraries/aframep5_ar.js"></script>
+
+		<!-- P5 Sketch -->
+        <script src="js/_pet.js"></script>
+		<script language="javascript" type="text/javascript" src="js/sketch.js"></script>
         
     </head>
     <body>
+        
+        <!-- modal box to tell the user to rotate their device into landscape mode - the AR toolkit only reliably renders in landscape mode -->
+		<div id="portrait_warning">
+			<h1>Rotate your device into landscape mode!</h1>
+		</div>
+        
+        
+        <!-- Define A-Frame VR Scene and set it up so that it will be manipulated through AR.js -->
+		<a-scene id="ARScene" embedded arjs='sourceType: webcam; debugUIEnabled: false; detectionMode: mono;'>
+
+			<!-- set up graphics we want to use as assets, same as in A-Frame VR-->
+			<a-assets>
+				<a-asset id="kitchen_obj" src="assets/model.obj"></a-asset>
+                <a-asset id="kitchen_mtl" src="assets/materials.mtl"></a-asset>
+			</a-assets>
+
+			<!-- set up all of the AR markers we will be working with along with links to their 'pattern' files -->
+			<!-- note that we aren't putting any geometry inside of marker here - we will do that in the p5 sketch -->
+			<a-marker id="hiro" preset="custom" url="markers/patt.hiro"></a-marker>
+            <a-marker id="zb" preset="custom" url="markers/patt.zb"></a-marker>
+
+			<a-entity camera></a-entity>
+		</a-scene>
+        
         <div class="vitals">
+            <div class="sprite">
+                <img src="img/0.png">
+            </div>
             <table>
-                <thead>
-                    <tr>
-                        <th>
-                            Vital
-                        </th>
-                        <th>
-                            Value
-                        </th>
-                    </tr>
-                </thead>
                 <tbody>
                     <tr>
                         <th>
                             Hunger
                         </th>
-                        <td id="hunger">
-                            100
+                        <td>
+                            <div>
+                                <span id="hunger"></span>
+                            </div>
                         </td>
                     </tr>
                     <tr>
                         <th>
                             Happiness
                         </th>
-                        <td id="happiness">
-                            100
+                        <td>
+                            <div>
+                                <span id="happiness"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Bladder
+                        </th>
+                        <td>
+                            <div>
+                                <span id="bladder"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Energy
+                        </th>
+                        <td>
+                            <div>
+                                <span id="energy"></spanid>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -42,11 +224,30 @@
         </div>
         <div class="interaction">
             <button id="feed">Feed</button>
-            <button id="pet">Pet</button>
+            <button id="pet">Dance</button>
+            <button id="sleep">Sleep</button>
+            <button id="pee" disabled>Bathroom</button>
         </div>
         
-        <script src="../../libraries/p5.js"></script>
+        <!--
+        <script src="../../libraries/p5.min.js"></script>
         <script src="js/_pet.js"></script>
-        <script src="js/index.js"></script>
+        <script src="js/sketch.js"></script>
+        -->
+        
+        <script>
+            buttons = document.querySelectorAll('.interaction button');
+            hungerSpan = document.querySelector('#hunger');
+            happinessSpan = document.querySelector('#happiness');
+            bladderSpan = document.querySelector('#bladder');
+            energySpan = document.querySelector('#energy');
+            bathroomButton = document.querySelector('#pee');
+
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].addEventListener('click', buttonHandler);
+            }
+
+            loadedDOM = true;
+        </script>
     </body>
 </html>

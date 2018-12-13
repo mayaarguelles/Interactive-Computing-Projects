@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body, html {
+                padding: 0;
+                margin: 0;
+            } #hiro {
+                position: absolute;
+                left: 0;
+                top: calc(50% - 15vw);
+                width: 30vw;
+                height: 30vw;
+                animation: hiroMove 3s infinite alternate;
+            } #zb {
+                position: absolute;
+                right: 0;
+                top: calc(50% - 15vw);
+                width: 30vw;
+                height: 30vw;
+                animation: zbMove 3s infinite alternate;
+            }
+            
+            @keyframes hiroMove {
+                from {
+                    left: 0;
+                } to {
+                    left: 20%;
+                }
+            }
+            
+            @keyframes zbMove {
+                from {
+                    right: 0;
+                } to {
+                    right: 20%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <img src="img/hiro.png" id="hiro">
+        <img src="img/zb.png" id="zb">
+    </body>
+</html>
